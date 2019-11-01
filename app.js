@@ -4,9 +4,10 @@ const app = express()
 
 app.use(bodyParser.json())
 
-app.get('/', (req, res) => {
-  response.writeHead(200, { 'Content-Type': 'text/plain' })
-  response.end('Hello World')
+app.get('/', async(request, response) => {
+  const data = await 
+
+  response.json(data.map(d  => d.toJ)))
 })
 
 module.exports = app
