@@ -7,23 +7,33 @@ import axios from 'axios'
 
 const App = () => {
 
-  const [files, setfiles] = useState([])
+  const [file, setfile] = useState({ selectedFile: null})
+  const [file2, setfile2] = useState(null)
 
-
-  const handleChange = (data) => {
-    console.log(data)
-    setfiles([...files, data])
+  const handleChange = (event) => {
+    // console.log(event.target.files[0])
+    setfile({selectedFile: event.target.files[0]})
   }
   const handleClick = async () => {
-    console.log(...files)
-   const response = await axios.post('http://localhost:5000/', [...files])
-  }
 
+
+    const data = new FormData()
+    data.append('file', file.selectedFile, 'file')
+    // console.log(file.selectedFile);
+
+    const response = await axios.post('http://localhost:5000/upload', data)
+    console.log(response.data)
+
+    setfile2(response.data)
+    
+  }
+console.log(file2);
 
   return (
     <>
-      <DropzoneArea
-        onChange={ handleChange.bind(this)}
+      {/* <DropzoneArea
+        name='file'
+        onChange={handleChange.bind(this)}
       />
       <label htmlFor="contained-button-file">
         <Grid container spacing={3}>
@@ -37,13 +47,17 @@ const App = () => {
               </Grid>
             </Grid>
           </Grid>
-          </Grid>
+        </Grid> */}
 
-      </label>
+      {/* </label> */}
+
+      <input type="file" name='file' onChange={handleChange} />
+      <button type="submit" onClick={handleClick}>submit</button>
+      <img type={file} src={file2 } />
     </>
 
-      )
-    }
-    
-    
+  )
+}
+
+
 export default App
